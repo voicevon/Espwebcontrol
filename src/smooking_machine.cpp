@@ -15,9 +15,15 @@ const char* password = "refuckgfw";
 WebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
 //-----------------------------------------------
-boolean varOnOff=false; String JSONtxt;
+String JSONtxt;
+boolean varOnOff=false; 
+boolean varPause=false;
+boolean varReset=false;
 int var_total_volume = 0;
 int var_total_count = 0;
+int var_volume = 0;
+int var_push_time = 3;
+int var_sleep_time = 50;
 //-----------------------------------------------
 #include "html_page.h"
 #include "web_functions.h"
@@ -45,14 +51,25 @@ void loop()
   //-----------------------------------------------
   if(varOnOff == false) digitalWrite(LED, LOW);
   else digitalWrite(LED, HIGH);
-  var_total_volume ++;
   //-----------------------------------------------
   String strOnOff = "OFF";
-  if(varOnOff == true) strOnOff = "ON";
+  String strPause = "Going";
+  String strReset = "Reset";
+  if(varOnOff) strOnOff = "ON";
+  if(varPause) strPause = "Paused";
+  if(varReset) strReset = "Reset";
   // JSONtxt = "{\"varOnOff\":\""+LEDstatus+"\"
   //             }";  
   JSONtxt = "{\"varOnOff\":\""+strOnOff+"\","
-            + "\"var_total_volume\"" +":" + var_total_volume
+            + "\"varPause\":\""+strPause+"\","
+            + "\"var_total_volume\"" +":\"" + var_total_volume + "\","
+            + "\"var_total_count\"" +":\"" + var_total_count + "\","
+            + "\"var_volume\"" +":\"" + var_volume + "\","
+            + "\"var_push_time\"" +":\"" + var_push_time + "\","
+            + "\"var_sleep_time\"" +":\"" + var_sleep_time + "\""
               +"}";
+  // Serial.println(JSONtxt);
+  // delay(300);
   webSocket.broadcastTXT(JSONtxt);
+
 }

@@ -36,7 +36,7 @@ R"=====(
 <body>
    <h1>Convolution Integral PTE.LTD.  <br>Smooking Machine  2021</h1>
    <h2>Total Volume: <span id = "total_volume">0</span><p>
-    Total counter: <span id = "total_counter">0</span><p></p>h2>
+    Total counter: <span id = "total_count">0</span><p></p></p></h2>
 
    Volume  <span id="volume_output">50</span> (ml) 
         <input type="range" min="0" max="100" value="50" class="slider" id="volume" onchange="onVolume()">
@@ -89,7 +89,11 @@ R"=====(
             document.getElementById('btnOnOff').style["boxShadow"] = "0px 0px 0px 8px #111111";
           }
           
-          document.getElementById('total_volume').textContent = JSONobj.var_total_volume;
+          document.getElementById('total_volume').innerHTML = JSONobj.var_total_volume;
+          document.getElementById('total_count').innerHTML = JSONobj.var_total_count;
+          document.getElementById('volume').value = JSONobj.var_volume;
+          document.getElementById('push_time').value = JSONobj.var_push_time;
+          document.getElementById('sleep_time').value = JSONobj.var_sleep_time;
        }
      }
      //-------------------------------------------------------------
@@ -98,20 +102,25 @@ R"=====(
     function onVolume(){
         output = document.getElementById("volume_output");
         output.innerHTML = document.getElementById("volume").value;
+        payload = "var_volume=" + output.innerHTML;
+        websock.send(payload);
     }
     function onPush(){
         output = document.getElementById("push_output");
         output.innerHTML = document.getElementById("push_time").value;
+        payload = "var_push_time=" + output.innerHTML;
+        websock.send(payload);
     }
     function onSleep(){
         output = document.getElementById("sleep_output");
         output.innerHTML = document.getElementById("sleep_time").value;
+        payload = "var_sleep_time=" + output.innerHTML;
+        websock.send(payload);
     }
      function btn_OnOff()
      {
         payload = 'varOnOff=ON';
-        if(document.getElementById('btnOnOff').innerHTML == 'ON')
-        {
+        if(document.getElementById('btnOnOff').innerHTML == 'ON'){
             payload = 'varOnOff=OFF';
         }
         websock.send(payload);
@@ -119,21 +128,17 @@ R"=====(
 
      function btn_Pause()
      {
-        payload = 'varPause=ON';
-        if(document.getElementById('btnPause').innerHTML == 'ON')
+        payload = 'varPause=Paused';
+        if(document.getElementById('btnPause').innerHTML == 'Paused')
         {
-            payload = 'varPause=OFF';
+            payload = 'varPause=Going';
         }
         websock.send(payload);
      }
 
      function btn_Reset()
      {
-        payload = 'varReset=ON';
-        if(document.getElementById('btnReset').innerHTML == 'ON')
-        {
-            payload = 'varReset=OFF';
-        }
+        payload = 'varReset=Reset';
         websock.send(payload);
      }
   </script>

@@ -25,10 +25,28 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t welengt
     Serial.println(val);
     Serial.println(" ");
 
-    if(var == "varOnOff")
-    {
+    if(var == "varOnOff"){
       varOnOff = false;
       if(val == "ON") varOnOff = true;
     }
+    if(var == "varPause"){
+      varPause = false;
+      if(val == "Paused") varPause = true;
+    }
+    if(var == "varReset"){
+      var_total_count = 0;
+      var_total_volume = 0;
+    }
+    if(var == "varVolume"){
+      var_volume = val.toInt();
+    }
+    if(var == "var"){
+      varOnOff = false;
+      if(val == "ON") varOnOff = true;
+    }
+    
+    var_total_volume+=3;
+    var_total_count++;
+
   }
 }
