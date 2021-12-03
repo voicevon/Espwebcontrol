@@ -44,22 +44,31 @@ void setup()
   server.begin(); webSocket.begin();
   webSocket.onEvent(webSocketEvent);
 }
-//====================================================================
-void loop()
-{
-  webSocket.loop(); server.handleClient();
-  //-----------------------------------------------
-  if(varOnOff == false) digitalWrite(LED, LOW);
-  else digitalWrite(LED, HIGH);
-  //-----------------------------------------------
+
+void send_status(){
   String strOnOff = "OFF";
   String strPause = "Going";
   String strReset = "Reset";
   if(varOnOff) strOnOff = "ON";
   if(varPause) strPause = "Paused";
-  if(varReset) strReset = "Reset";
   // JSONtxt = "{\"varOnOff\":\""+LEDstatus+"\"
   //             }";  
+  JSONtxt = "{\"varOnOff\":\""+strOnOff+"\","
+            + "\"varPause\":\""+strPause+"\","
+            + "\"var_total_volume\"" +":\"" + var_total_volume + "\","
+            + "\"var_total_count\"" +":\"" + var_total_count + "\""
+              +"}";
+  // Serial.println(JSONtxt);
+  // delay(300);
+  webSocket.broadcastTXT(JSONtxt);
+}
+
+void send_setting(){
+  String strOnOff = "OFF";
+  String strPause = "Going";
+  String strReset = "Reset";
+  if(varOnOff) strOnOff = "ON";
+  if(varPause) strPause = "Paused";
   JSONtxt = "{\"varOnOff\":\""+strOnOff+"\","
             + "\"varPause\":\""+strPause+"\","
             + "\"var_total_volume\"" +":\"" + var_total_volume + "\","
@@ -68,8 +77,16 @@ void loop()
             + "\"var_push_time\"" +":\"" + var_push_time + "\","
             + "\"var_sleep_time\"" +":\"" + var_sleep_time + "\""
               +"}";
-  // Serial.println(JSONtxt);
-  // delay(300);
   webSocket.broadcastTXT(JSONtxt);
+}
+//====================================================================
+void loop()
+{
+  webSocket.loop(); server.handleClient();
+  //-----------------------------------------------
+  if(varOnOff == false) digitalWrite(LED, LOW);
+  else digitalWrite(LED, HIGH);
+  //-----------------------------------------------
+  send_setting();
 
 }

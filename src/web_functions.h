@@ -37,12 +37,14 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t welengt
       var_total_count = 0;
       var_total_volume = 0;
     }
-    if(var == "varVolume"){
+    if(var == "var_volume"){
       var_volume = val.toInt();
     }
-    if(var == "var"){
-      varOnOff = false;
-      if(val == "ON") varOnOff = true;
+    if(var == "var_push_time"){
+      var_push_time = val.toInt();
+    }
+    if(var == "var_sleep_time"){
+      var_sleep_time = val.toInt();
     }
     
     var_total_volume+=3;

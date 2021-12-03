@@ -54,7 +54,7 @@ R"=====(
 
 <!-----------------------------JavaScript--------------------------->
   <script>
-     
+     var first_load = true;
      InitWebSocket()
      function InitWebSocket()
      {
@@ -91,9 +91,15 @@ R"=====(
           
           document.getElementById('total_volume').innerHTML = JSONobj.var_total_volume;
           document.getElementById('total_count').innerHTML = JSONobj.var_total_count;
-          document.getElementById('volume').value = JSONobj.var_volume;
-          document.getElementById('push_time').value = JSONobj.var_push_time;
-          document.getElementById('sleep_time').value = JSONobj.var_sleep_time;
+          if (first_load){
+            first_load = false;
+            document.getElementById('volume').value = JSONobj.var_volume;
+            document.getElementById('volume_output').innerHTML = JSONobj.var_volume;
+            document.getElementById('push_time').value = JSONobj.var_push_time;
+            document.getElementById('push_output').innerHTML = JSONobj.var_push_time;
+            document.getElementById('sleep_time').value = JSONobj.var_sleep_time;
+            docement.getElementById('sleep_output').innerHTML = JSONobj.var_sleep_time;
+          }
        }
      }
      //-------------------------------------------------------------
