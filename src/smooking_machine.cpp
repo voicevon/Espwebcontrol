@@ -15,7 +15,9 @@ const char* password = "refuckgfw";
 WebServer server(80);
 WebSocketsServer webSocket = WebSocketsServer(81);
 //-----------------------------------------------
-boolean LEDonoff=false; String JSONtxt;
+boolean varOnOff=false; String JSONtxt;
+int var_total_volume = 0;
+int var_total_count = 0;
 //-----------------------------------------------
 #include "html_page.h"
 #include "web_functions.h"
@@ -41,11 +43,16 @@ void loop()
 {
   webSocket.loop(); server.handleClient();
   //-----------------------------------------------
-  if(LEDonoff == false) digitalWrite(LED, LOW);
+  if(varOnOff == false) digitalWrite(LED, LOW);
   else digitalWrite(LED, HIGH);
+  var_total_volume ++;
   //-----------------------------------------------
-  String LEDstatus = "OFF";
-  if(LEDonoff == true) LEDstatus = "ON";
-  JSONtxt = "{\"LEDonoff\":\""+LEDstatus+"\"}";
+  String strOnOff = "OFF";
+  if(varOnOff == true) strOnOff = "ON";
+  // JSONtxt = "{\"varOnOff\":\""+LEDstatus+"\"
+  //             }";  
+  JSONtxt = "{\"varOnOff\":\""+strOnOff+"\","
+            + "\"var_total_volume\"" +":" + var_total_volume
+              +"}";
   webSocket.broadcastTXT(JSONtxt);
 }

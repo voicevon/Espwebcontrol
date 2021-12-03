@@ -25,10 +25,10 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t *payload, size_t welengt
     Serial.println(val);
     Serial.println(" ");
 
-    if(var == "LEDonoff")
+    if(var == "varOnOff")
     {
-      LEDonoff = false;
-      if(val == "ON") LEDonoff = true;
+      varOnOff = false;
+      if(val == "ON") varOnOff = true;
     }
   }
 }
